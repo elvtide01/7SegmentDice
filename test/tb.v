@@ -27,9 +27,9 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
-reg trigger;
+reg TRIGGER;
 
-   wire [7:0] ui_in = {7'b0000000, trigger};
+   wire [7:0] ui_in = {7'b0000000, TRIGGER};
    
 wire sega = uo_out[0];
 wire segb = uo_out[1];
