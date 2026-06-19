@@ -11,7 +11,7 @@ from cocotb.triggers import RisingEdge
 
 async def reset_dut(dut):
 
-    dut.rst.value = 1
+    dut.rst_n.value = 1
     dut.TRIGGER.value = 0
 
     for _ in range(5):
