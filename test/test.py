@@ -11,13 +11,13 @@ from cocotb.triggers import RisingEdge
 
 async def reset_dut(dut):
 
-    dut.rst_n.value = 0
+    dut.rst_n.value = 1
     dut.TRIGGER.value = 0
 
     for _ in range(5):
         await RisingEdge(dut.clk)
         
-    dut.rst_n.value = 1
+    dut.rst_n.value = 0
     
     await RisingEdge(dut.clk)
 
