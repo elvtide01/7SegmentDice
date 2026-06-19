@@ -31,13 +31,13 @@ reg TRIGGER;
 
    wire [7:0] ui_in = {7'b0000000, TRIGGER};
    
-wire sega = uo_out[0];
-wire segb = uo_out[1];
-wire segc = uo_out[2];
-wire segd = uo_out[3];
-wire sege = uo_out[4];
-wire segf = uo_out[5];
-wire segg = uo_out[6];
+wire SEGA = uo_out[0];
+wire SEGB = uo_out[1];
+wire SEGC = uo_out[2];
+wire SEGD = uo_out[3];
+wire SEGE = uo_out[4];
+wire SEGF = uo_out[5];
+wire SEGG = uo_out[6];
 
 wire LED1 = uio_out[0];
 wire LED2 = uio_out[1];
