@@ -29,7 +29,7 @@ module tb ();
 
 reg trigger;
 
-wire [7:0] ui_in = {7'0000000, trigger};
+   wire [7:0] ui_in = {7'b0000000, trigger};
    
 wire sega = uo_out[0];
 wire segb = uo_out[1];
