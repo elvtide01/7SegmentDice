@@ -11,15 +11,15 @@ from cocotb.triggers import RisingEdge
 
 async def reset_dut(dut):
 
-    dut.RST.value = 1
+    dut.rst.value = 1
     dut.TRIGGER.value = 0
 
     for _ in range(5):
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
         
-    dut.RST.value = 0
+    dut.rst.value = 0
     
-    await RisingEdge(dut.CLK)
+    await RisingEdge(dut.v)
 
 def read_segments(dut):
     return (
@@ -38,7 +38,7 @@ def read_segments(dut):
 async def val001_reset(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
@@ -54,14 +54,14 @@ async def val001_reset(dut):
 async def val002_display_changes(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
 
     dut.TRIGGER.value = 1
 
-    await RisingEdge(dut.CLK)
+    await RisingEdge(dut.clk)
 
     start_pattern = read_segments(dut)
 
@@ -69,7 +69,7 @@ async def val002_display_changes(dut):
 
     for _ in range(200):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         if read_segments(dut) != start_pattern:
             changed = True
@@ -86,7 +86,7 @@ async def val002_display_changes(dut):
 async def val003_multiple_states(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
@@ -97,7 +97,7 @@ async def val003_multiple_states(dut):
 
     for _ in range(300):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         patterns.add(read_segments(dut))
 
@@ -111,7 +111,7 @@ async def val003_multiple_states(dut):
 async def val004_count_led(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
@@ -122,7 +122,7 @@ async def val004_count_led(dut):
 
     for _ in range(500):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         if int(dut.LED1.value):
             seen_high = True
@@ -138,18 +138,18 @@ async def val004_count_led(dut):
 async def val005_finish_led_off(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
 
     dut.TRIGGER.value = 1
 
-    await RisingEdge(dut.CLK)
+    await RisingEdge(dut.clk)
 
     for _ in range(100):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         # active-low
         assert int(dut.LED2.value) == 1, \
@@ -162,7 +162,7 @@ async def val005_finish_led_off(dut):
 async def val006_stop_after_release(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
@@ -170,7 +170,7 @@ async def val006_stop_after_release(dut):
     dut.TRIGGER.value = 1
 
     for _ in range(50):
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
     dut.TRIGGER.value = 0
 
@@ -179,7 +179,7 @@ async def val006_stop_after_release(dut):
 
     for _ in range(5000):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         current = read_segments(dut)
 
@@ -203,7 +203,7 @@ async def val006_stop_after_release(dut):
 async def val007_finish_led(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
@@ -211,13 +211,13 @@ async def val007_finish_led(dut):
     dut.TRIGGER.value = 1
 
     for _ in range(50):
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
     dut.TRIGGER.value = 0
 
     for _ in range(300):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         if int(dut.LED2.value) == 0:
             return
@@ -233,7 +233,7 @@ async def val007_finish_led(dut):
 async def val008_final_value_constant(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
@@ -241,13 +241,13 @@ async def val008_final_value_constant(dut):
     dut.TRIGGER.value = 1
 
     for _ in range(50):
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
     dut.TRIGGER.value = 0
 
     for _ in range(300):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         if int(dut.LED2.value) == 0:
             break
@@ -256,7 +256,7 @@ async def val008_final_value_constant(dut):
 
     for _ in range(100):
         
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         assert read_segments(dut) == value, \
             "Endwert verändert sich nach Stop"
@@ -267,7 +267,7 @@ async def val008_final_value_constant(dut):
 async def val009_multiple_dice_values(dut):
 
     cocotb.start_soon(
-        Clock(dut.CLK, 10, unit="ns").start()
+        Clock(dut.clk, 10, unit="ns").start()
     )
 
     await reset_dut(dut)
@@ -278,7 +278,7 @@ async def val009_multiple_dice_values(dut):
 
     for _ in range(300):
 
-        await RisingEdge(dut.CLK)
+        await RisingEdge(dut.clk)
 
         seen.add(read_segments(dut))
 
