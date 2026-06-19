@@ -13,7 +13,7 @@ PROJECT_SOURCES = tt_um_elvtide01_7SegmentDice.v \
 				          dice_controller.v
 
 ifneq ($(GATES),yes)
-
+COMPILE_ARGS += -DSIMULATION
 # RTL simulation:
 SIM_BUILD				= sim_build/rtl
 VERILOG_SOURCES += $(addprefix $(SRC_DIR)/,$(PROJECT_SOURCES))
