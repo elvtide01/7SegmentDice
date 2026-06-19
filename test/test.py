@@ -19,7 +19,7 @@ async def reset_dut(dut):
         
     dut.rst_n.value = 0
     
-    await RisingEdge(dut.v)
+    await RisingEdge(dut.rst_n)
 
 def read_segments(dut):
     return (
