@@ -29,6 +29,11 @@ reg [3:0] decay_level;
 // Tick-Periode wird mit jeder Stufe verdoppelt
 assign event_period = BASE_PERIOD << decay_level;
 
+initial begin
+    $display("CLK_FREQ=%0d", CLK_FREQ);
+    $display("BASE_PERIOD=%0d", BASE_PERIOD);
+end
+    
 always @(posedge CLK) begin
 
     //  Reset 
