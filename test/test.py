@@ -6,7 +6,11 @@ from cocotb.triggers import ClockCycles, RisingEdge
 # ------------------------------------------------------------
 # Simulation Mode Detection
 # ------------------------------------------------------------
-
+print("ENV:")
+for k, v in sorted(os.environ.items()):
+    if "GATE" in k or "GL" in k:
+        print(k, "=", v)
+        
 GATE_LEVEL = os.getenv("GATES", "").lower() == "yes"
 
 if GATE_LEVEL:
