@@ -6,7 +6,11 @@ SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+PROJECT_SOURCES = tt_um_elvtide01_7SegmentDice.v \
+				          dice_top.v \
+				          event_generaator.v \
+				          sevnseg_decoder.v \
+				          dice_controller.v
 
 ifneq ($(GATES),yes)
 
