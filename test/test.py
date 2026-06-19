@@ -8,8 +8,7 @@ from cocotb.triggers import ClockCycles, RisingEdge
 # ------------------------------------------------------------
 print("ENV:")
 for k, v in sorted(os.environ.items()):
-    if "GATE" in k or "GL" in k:
-        print(k, "=", v)
+    print(k, "=", v)
         
 GATE_LEVEL = os.getenv("GATES", "").lower() == "yes"
 
