@@ -1,11 +1,33 @@
-# SPDX-FileCopyrightText: © 2024 Tiny Tapeout
-# SPDX-License-Identifier: Apache-2.0
+import os
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import ClockCycles
-from cocotb.triggers import RisingEdge
-import os
-GATE_LEVEL = os.getenv("GATES") == "yes"
+from cocotb.triggers import ClockCycles, RisingEdge
+
+# ------------------------------------------------------------
+# Simulation Mode Detection
+# ------------------------------------------------------------
+
+GATE_LEVEL = os.getenv("GATES", "").lower() == "yes"
+
+if GATE_LEVEL:
+    print("Running GATE LEVEL simulation")
+else:
+    print("Running RTL simulation")
+
+# ------------------------------------------------------------
+# Timing Parameters
+# ------------------------------------------------------------
+
+if GATE_LEVEL:
+    DISPLAY_WAIT = 5000
+    STATE_WAIT   = 10000
+    STOP_WAIT    = 50000
+    FINISH_WAIT  = 50000
+else:
+    DISPLAY_WAIT = 200
+    STATE_WAIT   = 300
+    STOP_WAIT    = 5000
+    FINISH_WAIT  = 300
 
 # ============================================================
 # Hilfsfunktionen
@@ -69,7 +91,7 @@ async def val002_display_changes(dut):
 
     changed = False
 
-    for _ in range(200):
+    for _ in range(DISPLAY_WAIT):
 
         await RisingEdge(dut.clk)
 
@@ -97,7 +119,7 @@ async def val003_multiple_states(dut):
 
     patterns = set()
 
-    for _ in range(300):
+    for _ in range(STATE_WAIT):
 
         await RisingEdge(dut.clk)
 
@@ -179,7 +201,7 @@ async def val006_stop_after_release(dut):
     stable_count = 0
     last_pattern = read_segments(dut)
 
-    for _ in range(5000):
+    for _ in range(STOP_WAIT):
 
         await RisingEdge(dut.clk)
 
@@ -217,7 +239,7 @@ async def val007_finish_led(dut):
 
     dut.TRIGGER.value = 0
 
-    for _ in range(300):
+    for _ in range(FINISH_WAIT):
 
         await RisingEdge(dut.clk)
 
@@ -247,7 +269,7 @@ async def val008_final_value_constant(dut):
 
     dut.TRIGGER.value = 0
 
-    for _ in range(300):
+    for _ in range(FINISH_WAIT):
 
         await RisingEdge(dut.clk)
 
@@ -278,7 +300,7 @@ async def val009_multiple_dice_values(dut):
 
     seen = set()
 
-    for _ in range(300):
+    for _ in range(STATE_WAIT):
 
         await RisingEdge(dut.clk)
 
