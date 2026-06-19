@@ -27,6 +27,23 @@ module tb ();
   wire VGND = 1'b0;
 `endif
 
+reg trigger;
+
+wire [7:0] ui_in = {7'0000000, trigger};
+   
+wire sega = uo_out[0];
+wire segb = uo_out[1];
+wire segc = uo_out[2];
+wire segd = uo_out[3];
+wire sege = uo_out[4];
+wire segf = uo_out[5];
+wire segg = uo_out[6];
+
+wire pulsecount = uio_out[0];
+wire finish = uio_out[1];
+
+//assign uio_oe = 8'b00000011;
+   
   // Replace tt_um_example with your module name:
   tt_um_elvtide01_7SegmentDice user_project (
 
