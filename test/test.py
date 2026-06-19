@@ -17,7 +17,7 @@ async def reset_dut(dut):
     for _ in range(5):
         await RisingEdge(dut.clk)
         
-    dut.rst.value = 0
+    dut.rst_n.value = 0
     
     await RisingEdge(dut.v)
 
