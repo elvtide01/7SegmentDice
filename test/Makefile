@@ -8,8 +8,8 @@ TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
 PROJECT_SOURCES = tt_um_elvtide01_7SegmentDice.v \
 				          dice_top.v \
-				          event_generaator.v \
-				          sevnseg_decoder.v \
+				          event_generator.v \
+				          sevenseg_decoder.v \
 				          dice_controller.v
 
 ifneq ($(GATES),yes)
