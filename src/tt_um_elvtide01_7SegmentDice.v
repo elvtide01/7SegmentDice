@@ -89,33 +89,4 @@ module tt_um_elvtide01_7SegmentDice (
     assign uio_out[1] = finish;
 
     assign uio_out[7:2] = 6'b000000;
-
-    wire TRIGGER;
-    
-    wire LED1;
-    wire LED2;
-    
-    wire SEGA;
-    wire SEGB;
-    wire SEGC;
-    wire SEGD;
-    wire SEGE;
-    wire SEGF;
-    wire SEGG;
-    
-    
-    assign TRIGGER = trigger;
-    
-    assign LED1 = pulsecount;
-    assign LED2 = finish;
-    
-    
-    assign SEGA = sega;
-    assign SEGB = segb;
-    assign SEGC = segc;
-    assign SEGD = segd;
-    assign SEGE = sege;
-    assign SEGF = segf;
-    assign SEGG = segg;
-    
 endmodule
