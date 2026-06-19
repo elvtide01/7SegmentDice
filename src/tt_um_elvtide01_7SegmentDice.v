@@ -142,6 +142,7 @@ module tt_um_elvtide01_7SegmentDice (
     dice_top dice_inst (
         // System clock
         .CLK(clk),
+        .RST(rst_n),
 
         // Trigger input
         .TRIGGER(trigger),
