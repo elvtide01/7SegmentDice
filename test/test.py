@@ -22,10 +22,10 @@ else:
 # ------------------------------------------------------------
 
 if GATE_LEVEL:
-    DISPLAY_WAIT = 30000000
-    STATE_WAIT   = 45000000
-    STOP_WAIT    = 750000000
-    FINISH_WAIT  = 45000000
+    DISPLAY_WAIT = 30000
+    STATE_WAIT   = 45000
+    STOP_WAIT    = 750000
+    FINISH_WAIT  = 45000
 else:
     DISPLAY_WAIT = 200
     STATE_WAIT   = 300
