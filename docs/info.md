@@ -13,10 +13,11 @@ The system is intended to recreate the effect of a rolling dice as an instrument
 
 ## How to test
 
-Press one button to start the counter and keep it pressed for a certain time (for example 2 seconds). Release the button and after approx. 7 seconds the number on the 7-segment display shows you a random number in the range of 1 to 6.
+Press the trigger button to start the counter and keep it pressed for a certain time (for example 2 seconds). Release the button and after approx. 7 seconds the number on the 7-segment display shows you a random number in the range of 1 to 6. Meanwhile LED "Pulsecount" starts to flash each time the counter counts one up. After the process is done, LED "Finish" lights up and signalizes, no further counts can be expected.
 
 ## External hardware
 
-- 2 LEDs connected as active low
-- 1 7-segment display in common-anode configuration (or 2-digit 7-segment display connected to PMOD, whereas only one of the digits is used)
-- 2 buttons - one for software-reset and one to let the dice roll.
+- 2 LEDs connected as active low, LED1 (Pulsecount) connected to bidirectional pin[0] and LED2 (Finish) to bidirectional pin[1].
+- 1 7-segment display in common-anode configuration (or 2-digit 7-segment display connected to PMOD, whereas only one of the digits is used).
+- Pin "COMMON" can be ignored if using an general purpose LED Display and only outputs a LOW signallevel.
+- 1 button for triggering in active high configuration
