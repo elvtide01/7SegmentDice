@@ -31,7 +31,11 @@ else:
     STATE_WAIT   = 300
     STOP_WAIT    = 5000
     FINISH_WAIT  = 300
-
+    
+print(DISPLAY_WAIT)
+print(STATE_WAIT)
+print(STOP_WAIT)
+print(FINISH_WAIT)
 # ============================================================
 # Hilfsfunktionen
 # ============================================================
