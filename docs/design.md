@@ -86,19 +86,11 @@ This creates a slowdown that is easy to understand and simple to implement in ha
 
 The current implementation includes a reset input (`RST` in the block diagram, `rst_n` in the cocotb testbench).
 The testbench drives `rst_n = 1` for five clock cycles and then holds `rst_n = 0` during normal operation, which is the opposite of the usual active-low convention implied by the `_n` suffix.
-The actual assertion polarity must be confirmed against the RTL.
-If the naming is misleading, either the testbench signal name or the module port name should be corrected for clarity.
-
-Register initialization is handled via `initial` blocks.
-This is acceptable for many FPGA flows but should be reviewed if the design is prepared for ASIC fabrication, where `initial` blocks are typically not supported.
+The actual hardware test environment however uses a second dedicated push button next to the trigger button, which is active high. To not maually push the software-reset button for operation, the reset logic is active-high.
 
 The current implementation does not debounce `TRIGGER`.
 A real mechanical push button can bounce and may produce several fast input transitions.
-For a robust hardware demonstration, an additional debounce module would be recommended.
-
-`event_generator.v` declares `tickIndicator` both as an `output reg` and potentially as a local `reg` with initialization.
-Some Verilog tools may reject a duplicate declaration.
-If a syntax error occurs, remove the local redeclaration and handle initialization in an `initial` block or reset logic on the output declaration.
+For a robust hardware demonstration, an additional debounce module would be recommended. However since additional pulses does not effect the functional behaviour of the overall design, the debouncing feature was removed to simplify the design.
 
 ## 9. Design Traceability
 
@@ -113,4 +105,4 @@ If a syntax error occurs, remove the local redeclaration and handle initializati
 | `SEVENSEG_DECODER` | REQ-010 |
 | `main.v` output mapping | REQ-008, REQ-009, REQ-010 |
 | `main.v` hierarchical instantiation | REQ-011 |
-| `test (1).py` cocotb testbench | REQ-013 |
+| `test.py` cocotb testbench | REQ-013 |
