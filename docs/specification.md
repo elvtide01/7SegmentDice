@@ -9,14 +9,15 @@ The value shall change while a push button is pressed and shall continue to chan
 ## 2. System Context
 
 The design is intended for implementation as a synchronous digital circuit.
-It uses one system clock, one push-button input, two LED outputs and one single-digit 7-segment output.
+It uses one system clock, one reset input, one push-button input, two LED outputs and one single-digit 7-segment output.
 The design is suitable for FPGA demonstration and for a small digital chip-design laboratory project.
 
 ## 3. External Interface
 
 | Signal | Direction | Width | Polarity | Description |
 |---|---:|---:|---|---|
-| `CLK` | Input | 1 | Rising edge | System clock input |
+| `CLK` (testbench port: `clk`) | Input | 1 | Rising edge | System clock input |
+| `RST_N` (testbench port: `rst_n`) | Input | 1 | See note below | Reset input |
 | `TRIGGER` | Input | 1 | Active high | Push-button input that starts or holds the fast counting phase |
 | `LED1` | Output | 1 | Active low | Counting pulse indicator |
 | `LED2` | Output | 1 | Active low | Finish-state indicator |
@@ -29,78 +30,84 @@ The design is suitable for FPGA demonstration and for a small digital chip-desig
 | `SEGG` | Output | 1 | Active low | 7-segment segment G |
 | `SEGCOM` | Output | 1 | Constant 0 | Common 7-segment terminal control |
 
-## 4. Assumptions
 
-- The system clock frequency is assumed to be 12 MHz, as defined by `CLK_FREQ` in `dice_controller.v`.
-- The push button is treated as a digital input signal.
-- No explicit debouncing requirement is included in the current implementation.
-- No explicit reset input is included in the current implementation.
-- The physical LED and 7-segment wiring is assumed to require active-low outputs.
+## 4. Functional Requirements
+### REQ-001: Reset Behavior
 
-## 5. Functional Requirements
+After reset is applied and released, the system shall start in the finish/idle state, i.e. `finish_flag` shall be `1`, reflected by `LED2` being asserted (active-low, `LED2 = 0`).
 
-### REQ-001: Dice Value Range
+Validation: [VAL-001](validation.md#val-001-reset-behavior)
+Verification: [VER-001](verification-report.md#ver-001-reset-behavior)
+
+### REQ-002: Dice Value Range
 
 The system shall only display dice values from 1 to 6 during normal operation.
 
-Validation: [VAL-001](validation.md#val-001-dice-value-range)  
-Verification: [VER-001](verification-report.md#ver-001-dice-value-range)
+Validation: [VAL-002](validation.md#val-002-dice-value-range)
+Verification: [VER-002](verification-report.md#ver-002-dice-value-range)
 
-### REQ-002: Cyclic Dice Counting
+### REQ-003: Cyclic Dice Counting
 
 The dice value shall increment by one on each accepted counting tick and shall wrap from 6 back to 1.
 
-Validation: [VAL-002](validation.md#val-002-cyclic-dice-counting)  
-Verification: [VER-002](verification-report.md#ver-002-cyclic-dice-counting)
+Validation: [VAL-003](validation.md#val-003-cyclic-dice-counting)
+Verification: [VER-003](verification-report.md#ver-003-cyclic-dice-counting)
 
-### REQ-003: Fast Counting While Trigger Is Pressed
+### REQ-004: Fast Counting While Trigger Is Pressed
 
-While `TRIGGER` is high, the system shall count using the base counting period derived from `BASE_FREQ = 40 Hz`.
+While `TRIGGER` is high, the system shall count using the base counting period derived from `BASE_FREQ = 40 Hz`, and the displayed segment pattern shall visibly change and reach at least four distinct dice values within a bounded observation window.
 
-Validation: [VAL-003](validation.md#val-003-fast-counting-while-trigger-is-pressed)  
-Verification: [VER-003](verification-report.md#ver-003-fast-counting-while-trigger-is-pressed)
+Validation: [VAL-004](validation.md#val-004-fast-counting-while-trigger-is-pressed)
+Verification: [VER-004](verification-report.md#ver-004-fast-counting-while-trigger-is-pressed)
 
-### REQ-004: Deceleration After Trigger Release
+### REQ-005: Deceleration After Trigger Release
 
 After `TRIGGER` changes from high to low, the system shall increase the counting period once per second until the finish state is reached.
 
-Validation: [VAL-004](validation.md#val-004-deceleration-after-trigger-release)  
-Verification: [VER-004](verification-report.md#ver-004-deceleration-after-trigger-release)
+Validation: [VAL-005](validation.md#val-005-deceleration-after-trigger-release)
+Verification: [VER-005](verification-report.md#ver-005-deceleration-after-trigger-release)
 
-### REQ-005: Stop After Approximately Seven Seconds
+### REQ-006: Stop After Approximately Seven Seconds
 
-After `TRIGGER` is released, the system shall enter the finish state after approximately seven seconds.
+After `TRIGGER` is released, the system shall enter the finish state after approximately seven seconds, after which the displayed segment pattern shall remain stable.
 
-Validation: [VAL-005](validation.md#val-005-stop-after-approximately-seven-seconds)  
-Verification: [VER-005](verification-report.md#ver-005-stop-after-approximately-seven-seconds)
+Validation: [VAL-006](validation.md#val-006-stop-after-approximately-seven-seconds)
+Verification: [VER-006](verification-report.md#ver-006-stop-after-approximately-seven-seconds)
 
-### REQ-006: Counting Pulse LED
+### REQ-007: Final Value Remains Constant
 
-`LED1` shall indicate visible counting activity while the dice round is active.
+Once the finish state is reached after a `TRIGGER` release, the displayed segment pattern and `LED2` shall remain constant until the next trigger press.
 
-Validation: [VAL-006](validation.md#val-006-counting-pulse-led)  
-Verification: [VER-006](verification-report.md#ver-006-counting-pulse-led)
+Validation: [VAL-007](validation.md#val-007-final-value-remains-constant)
+Verification: [VER-007](verification-report.md#ver-007-final-value-remains-constant)
 
-### REQ-007: Finish LED
+### REQ-008: Counting Pulse LED
 
-`LED2` shall indicate the finish state generated by the dice controller.
+`LED1` shall indicate visible counting activity while the dice round is active (i.e. it shall become active at least once within a bounded number of clock cycles after `TRIGGER` is asserted).
 
-Validation: [VAL-007](validation.md#val-007-finish-led)  
-Verification: [VER-007](verification-report.md#ver-007-finish-led)
+Validation: [VAL-008](validation.md#val-008-counting-pulse-led)
+Verification: [VER-008](verification-report.md#ver-008-counting-pulse-led)
 
-### REQ-008: 7-Segment Output Encoding
+### REQ-009: Finish LED
 
-The system shall convert each dice value into the corresponding 7-segment output pattern.
+`LED2` shall be inactive (`LED2 = 1`, active-low) throughout the rolling/counting phase and shall change to active (`LED2 = 0`) only when the finish state is generated by the dice controller.
 
-Validation: [VAL-008](validation.md#val-008-7-segment-output-encoding)  
-Verification: [VER-008](verification-report.md#ver-008-7-segment-output-encoding)
+Validation: [VAL-009](validation.md#val-009-finish-led)
+Verification: [VER-009](verification-report.md#ver-009-finish-led)
 
-### REQ-009: Hierarchical Design
+### REQ-010: 7-Segment Output Encoding
+
+The system shall convert each dice value into a distinct 7-segment output pattern, such that at least four different valid patterns are observable while `TRIGGER` is held for a sufficiently long window.
+
+Validation: [VAL-010](validation.md#val-010-7-segment-output-encoding)
+Verification: [VER-010](verification-report.md#ver-010-7-segment-output-encoding)
+
+### REQ-011: Hierarchical Design
 
 The implementation shall consist of several interconnected Verilog submodules.
 
-Validation: [VAL-009](validation.md#val-009-hierarchical-design)  
-Verification: [VER-009](verification-report.md#ver-009-hierarchical-design)
+Validation: [VAL-011](validation.md#val-011-hierarchical-design)
+Verification: [VER-011](verification-report.md#ver-011-hierarchical-design)
 
 ## 6. Timing Parameters
 
@@ -130,24 +137,35 @@ Therefore, the intended tick periods are approximately:
 | 5 | 9,600,000 | 800 ms | 1.25 Hz |
 | 6 | 19,200,000 | 1.6 s | 0.625 Hz |
 
+### 6.1 Testbench Timing Modes
+
+`test.py` supports two simulation modes, selected via the `GATES` environment variable:
+
+| Mode | `GATES` | `DISPLAY_WAIT` | `STATE_WAIT` | `STOP_WAIT` | `FINISH_WAIT` |
+|---|---|---:|---:|---:|---:|
+| RTL simulation | unset / not `"yes"` | 200 cycles | 300 cycles | 5,000 cycles | 300 cycles |
+| Gate-level simulation | `"yes"` | 300,000 cycles | 1,200,000 cycles | 7,500,000 cycles | 6,000,000 cycles |
+
+The gate-level values are scaled to be consistent with the real cycle counts implied by `BASE_PERIOD` and the ~7 s finish delay; the RTL-mode values are deliberately shortened so RTL simulations run quickly and are **behavioral bounds only** (e.g. "a change must occur within N cycles"), not precise timing checks of `BASE_FREQ` or the 7-second finish delay.
+
 ## 7. Non-Functional Requirements
 
-### REQ-010: Simplicity
+### REQ-012: Simplicity
 
 The design shall remain small enough for a laboratory chip-design project and shall avoid unnecessary overengineering.
 
-Validation: [VAL-010](validation.md#val-010-simplicity)  
-Verification: [VER-010](verification-report.md#ver-010-simplicity)
+Validation: [VAL-012](validation.md#val-012-simplicity)
+Verification: [VER-012](verification-report.md#ver-012-simplicity)
 
-### REQ-011: Testability
+### REQ-013: Testability
 
-The top-level design shall be testable by a Verilog testbench or by an equivalent HDL simulation method.
+The top-level design shall be testable by a Verilog testbench or by an equivalent HDL simulation method, and shall support both RTL and gate-level simulation.
 
-Validation: [VAL-011](validation.md#val-011-testability)  
-Verification: [VER-011](verification-report.md#ver-011-testability)
+Validation: [VAL-013](validation.md#val-013-testability)
+Verification: [VER-013](verification-report.md#ver-013-testability)
 
 ## 8. Known Specification Boundaries
 
 The current specification does not require cryptographic randomness.
 The dice behavior is pseudo-random from a user perspective because the visible final value depends on the release timing of the push button.
-The current specification also does not require hardware debouncing, a reset input, or multi-digit display multiplexing.
+The current specification also does not require hardware debouncing
