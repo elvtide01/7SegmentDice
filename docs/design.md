@@ -8,7 +8,7 @@ The structure follows the laboratory requirement for a hierarchical HDL design.
 
 ## 2. Block Diagram
 
-![Block diagram of the electronic dice circuit](blockCD.jpeg)
+![Block diagram of the electronic dice circuit](images/blockCD.jpeg)
 
 The diagram shows the three submodules (`DICE_CONTROLLER`, `EVENT_GENERATOR`, `SEVENSEG_DECODER`) and their interconnections inside the top-level module `main.v`.
 External inputs are `CLK`, `RST` and `TRIG` (push button).
