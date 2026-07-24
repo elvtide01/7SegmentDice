@@ -27,17 +27,15 @@ simulation-based evidence collected in [verification-report.md](verification-rep
 | Reset input | On-board push-button, mapped to `dice_top.RST` |
 | Status LEDs | On-board status LEDs used to observe `dice_top.LED1` and `dice_top.LED2` |
 
-The synthesized bitstream was generated using `yosys` (RTL synthesis targeting
-`synth_ice40`), placed and routed using `nextpnr-ice40` against the pin constraints in
-`test/fpga/icebreaker.pcf`, and packed into a `.bin` file using `icepack`. The bitstream
-was programmed onto the board using `iceprog`, following the workflow described in the
-laboratory description (Chapter 7.9, "Test Design on an FPGA").
+The synthesized bitstream was generated using `apio` (VS Code extention for FPGA programming), placed and routed against the pin constraints in
+`test/fpga/icebreaker.pcf`. The bitstream
+was programmed onto the board using `apio` as well.
 
 > **Note on reset polarity:** as documented in
 > [silicon-testing-procedure.md](silicon-testing-procedure.md), Section 4.1, `RST` in
 > `dice_top.v` is active-**high** (`if (RST) begin ... end`). The on-board push-button
 > used for reset was wired/constrained accordingly in `icebreaker.pcf` so that pressing
-> the button drives `RST = 1`.
+> the button drives `RST = 1` because of the active-high logic of the ICEbreaker pushbuttons.
 
 ![FPGA-implementation on icebreaker dev. board](images/ICEbreakerDemo.jpeg)
 
