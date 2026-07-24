@@ -3,7 +3,16 @@
 # signals that actually used by this example.
 
 set_io LED1 37  # output
-set_io LED2 38  # output
+set_io LED2 11  # output
+set_io SEGA 4  # output
+set_io SEGB 2  # output
+set_io SEGC 47  # output
+set_io SEGD 45  # output
+set_io SEGE 3  # output
+set_io SEGF 48  # output
+set_io SEGG 46  # output
+set_io SEGCOM 44  # output
 
-set_io CLK  49  # input
-
+set_io RST 19 #BTN2
+set_io CLK  35  # clk input
+set_io TRIGGER 20 # trigger button input
