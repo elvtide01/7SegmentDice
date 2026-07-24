@@ -12,7 +12,7 @@ The report is linked from [specification.md](specification.md) via the `Verifica
 | Item | Detail |
 |---|---|
 | Simulation framework | cocotb (Python-based HDL co-simulation) |
-| Testbench file | `test (1).py` |
+| Testbench file | `test.py` |
 | Simulation mode | RTL (`GATES` not set) |
 | Test clock period | 10 ns (100 MHz testbench clock; design assumes 12 MHz in production) |
 | Total simulation time | 51,004,010.01 ns |
