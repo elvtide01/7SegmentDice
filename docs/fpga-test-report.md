@@ -39,7 +39,7 @@ laboratory description (Chapter 7.9, "Test Design on an FPGA").
 > used for reset was wired/constrained accordingly in `icebreaker.pcf` so that pressing
 > the button drives `RST = 1`.
 
-![FPGA-implementation on icebreaker dev. board](WhatsApp%20Image%202026-07-23%20at%2022.14.10.jpeg)
+![FPGA-implementation on icebreaker dev. board](images/ICEbreakerDemo.jpeg)
 
 *Figure 1: 7-Segment Electronic Dice design running on the iCEbreaker FPGA development
 board with the 7-Segment Pmod display attached, showing dice value 4.*
