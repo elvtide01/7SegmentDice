@@ -142,8 +142,6 @@ Status: **PENDING — monotonic deceleration not directly measured**
 
 **Relevance:** REQ-005 requires that tick intervals increase monotonically after `TRIGGER` release. The Vivado waveform screenshots (`SimulationFull.PNG`, `SimulationStart.PNG`) provide visual evidence of progressive slowdown, but the cocotb regression suite does not contain a dedicated test that measures successive tick timestamps and asserts monotonically increasing intervals.
 
-**Recommended action:** Add a test that records the timestamp of each `LED1` pulse after `TRIGGER` release and asserts that each interval is strictly greater than the previous one.
-
 ---
 
 ### VER-006: Stop After Approximately Seven Seconds
@@ -262,11 +260,8 @@ All other requirements are covered by at least one passing automated test, Vivad
 
 ## 7. Overall Verification Status
 
-> ### ✅ PASS WITH PENDING TESTS
 >
 > **8 of 8 automated cocotb tests passed (FAIL=0, SKIP=0).**
 > All functional requirements that are exercised by the current test suite are verified as correct.
 >
 > Three requirements — REQ-002 (Dice Value Range), REQ-003 (Cyclic Dice Counting), and REQ-005 (Deceleration After Trigger Release) — are not fully covered by automated simulation in this run. They are partially supported by design review, Vivado waveform evidence, and the passing results of related tests (VER-004, VER-006), but dedicated automated tests are still outstanding.
->
-> Verification is therefore conditionally successful. The design may be considered functionally correct for the purposes of an RTL laboratory demonstration. Completion of the three pending tests listed in Section 6 is required before the design is considered fully verified for submission to fabrication or formal sign-off.
